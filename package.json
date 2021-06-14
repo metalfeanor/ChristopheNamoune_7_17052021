@@ -1,0 +1,19 @@
+{
+  "name": "project_petits_plats",
+  "version": "1.0.0",
+  "description": "recipe website with search algorithm",
+  "main": "index.html",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metalfeanor/ChristopheNamoune_7_17052021.git"
+  },
+  "author": "C.Namoune",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/metalfeanor/ChristopheNamoune_7_17052021/issues"
+  },
+  "homepage": "https://github.com/metalfeanor/ChristopheNamoune_7_17052021#readme"
+}

@@ -1,0 +1,244 @@
+.main {
+  margin: 0 7%;
+}
+
+.search {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 25px;
+  //row-gap: 25px;
+  margin-bottom: 25px;
+  &__form {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+  }
+  &__bar {
+    width: 100%;
+    height: 69px;
+    background-color: $color-lightGrey;
+    border-radius: 5px;
+    border: none;
+    font-size: 18px;
+    padding-left: 22px;
+  }
+  &__bar-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 65px;
+    width: 60px;
+    font-size: 1.3em;
+    background-color: $color-lightGrey;
+    border: none;
+    transform: translate(-2px, 2px);
+
+    &:hover {
+      cursor: pointer;
+      color: $color-primary;
+    }
+  }
+  &__btn {
+    @include btnType1;
+  }
+  &__group {
+    position: relative;
+    margin-top: 20px;
+  }
+}
+.btn1 {
+  background-color: $color-blue;
+  @include btn_look;
+}
+.btn2 {
+  background-color: $color-green;
+  @include btn_look;
+}
+.btn3 {
+  background-color: $color-orange;
+  @include btn_look;
+}
+
+.recipes {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  row-gap: 20px;
+}
+
+.recipe {
+  height: auto;
+  width: 380px;
+  background-color: $color-lightGrey;
+  border-radius: 5px;
+  overflow: hidden;
+  &-img {
+    height: 178px;
+    background-color: $color-img;
+  }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    line-height: 1.2;
+  }
+  &__body {
+    display: flex;
+    &__time {
+      font-size: 18px;
+      font-weight: 700;
+      min-width: 50px;
+      & > i {
+        font-size: 20px;
+      }
+    }
+    &__ingredients {
+      width: 50%;
+      padding-left: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    &__description {
+      font-family: Roboto;
+      font-weight: 400;
+      font-style: normal;
+      line-height: 1;
+      font-size: 12px;
+      width: 50%;
+      padding: 0 18px 15px 0;
+      margin-bottom: 15px;
+      max-height: 12px * 9;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 9; /* number of lines to show */
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+
+.filtersTags {
+  width: 100%;
+  position: absolute;
+  z-index: 5;
+  left: -10px;
+  top: -11px;
+  padding: 10px;
+  display: none;
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 50vw;
+    flex-flow: row wrap;
+    border-radius: 5px;
+    position: relative;
+  }
+
+  li {
+    margin-bottom: 5px;
+    padding: 5px;
+    list-style: none;
+  }
+  button {
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: inherit;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 18px;
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+  input {
+    grid-column: 1 / span 3;
+    margin: 5px;
+    background-color: inherit;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    height: 40px;
+    padding-left: 5px;
+    &::placeholder {
+      color: #fff;
+      line-height: 1.2;
+      opacity: 0.5;
+    }
+  }
+}
+
+#ingredientsFilterList {
+  background-color: $color-blue;
+  & > button:hover {
+    background-color: darken($color-blue, 10%);
+  }
+  & > span {
+    @include span_filtertags_position;
+  }
+}
+
+#applianceFilterList {
+  background-color: $color-green;
+  & > button:hover {
+    background-color: darken($color-green, 10%);
+  }
+  & > span {
+    @include span_filtertags_position;
+  }
+}
+
+#ustensilsFilterList {
+  background-color: $color-orange;
+  & > button:hover {
+    background-color: darken($color-orange, 10%);
+  }
+  & > span {
+    @include span_filtertags_position;
+  }
+}
+
+.label {
+  display: flex;
+  flex-flow: row wrap;
+  //row-gap: 20px;
+  width: 100%;
+}
+
+.labelTag {
+  margin-right: 5px;
+  margin-top: 20px;
+  height: 37px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: white;
+  font-weight: 700;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.closeBtnFilter {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  & > i {
+    font-size: 20px;
+    margin-left: 10px;
+    color: white;
+    &:hover {
+      color: black;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@mixin btnType1 {
+  color: white;
+  width: 170px;
+  height: 69px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin btn_look {
+  align-items: center;
+  padding: 0px 1.2em;
+}
+
+@mixin span_filtertags_position {
+  position: absolute;
+  right: 25px;
+  top: 15px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    color: black;
+  }
+}
