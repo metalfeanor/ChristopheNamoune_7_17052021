@@ -293,7 +293,7 @@ const displayTextFromSearchInput = (e) => {
   if (value.length > 0) {
     if (e.target.id === "ing") {
       ingBtnList.forEach((elt) => {
-        if (!elt.textContent.includes(value)) {
+        if (!elt.textContent.includes(value.toLowerCase())) {
           elt.classList.add("hidden");
         } else {
           elt.classList.remove("hidden");
@@ -301,7 +301,7 @@ const displayTextFromSearchInput = (e) => {
       });
     } else if (e.target.id === "app") {
       appBtnList.forEach((elt) => {
-        if (!elt.textContent.includes(value)) {
+        if (!elt.textContent.includes(value.toLowerCase())) {
           elt.classList.add("hidden");
         } else {
           elt.classList.remove("hidden");
@@ -309,7 +309,7 @@ const displayTextFromSearchInput = (e) => {
       });
     } else if (e.target.id === "ust") {
       ustBtnList.forEach((elt) => {
-        if (!elt.textContent.includes(value)) {
+        if (!elt.textContent.includes(value.toLowerCase())) {
           elt.classList.add("hidden");
         } else {
           elt.classList.remove("hidden");
