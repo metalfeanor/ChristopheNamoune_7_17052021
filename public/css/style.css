@@ -15,6 +15,11 @@ h2 {
   font-size: 18px;
   font-weight: 400;
 }
+@media (max-width: 599px) {
+  h2 {
+    font-size: 16px;
+  }
+}
 
 h3 {
   font-size: 1.5em;
@@ -77,6 +82,11 @@ p {
   font-size: 18px;
   padding-left: 22px;
 }
+@media (max-width: 599px) {
+  .search__bar {
+    padding-left: 10px;
+  }
+}
 .search__bar-btn {
   position: absolute;
   top: 0;
@@ -104,9 +114,19 @@ p {
   display: flex;
   justify-content: space-between;
 }
+@media (max-width: 599px) {
+  .search__btn {
+    width: 100%;
+  }
+}
 .search__group {
   position: relative;
   margin-top: 20px;
+}
+@media (max-width: 599px) {
+  .search__group {
+    width: 100%;
+  }
 }
 
 .btn1 {
@@ -160,8 +180,18 @@ p {
   font-weight: 700;
   min-width: 50px;
 }
+@media (max-width: 599px) {
+  .recipe__body__time {
+    font-size: 16px;
+  }
+}
 .recipe__body__time > i {
   font-size: 20px;
+}
+@media (max-width: 599px) {
+  .recipe__body__time > i {
+    font-size: 18px;
+  }
 }
 .recipe__body__ingredients {
   width: 50%;
@@ -196,6 +226,13 @@ p {
   padding: 10px;
   display: none;
 }
+@media (max-width: 599px) {
+  .filtersTags {
+    padding: 0;
+    left: 0;
+    top: 0;
+  }
+}
 .filtersTags ul {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -203,6 +240,12 @@ p {
   flex-flow: row wrap;
   border-radius: 5px;
   position: relative;
+}
+@media (max-width: 599px) {
+  .filtersTags ul {
+    width: 88vw;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .filtersTags li {
   margin-bottom: 5px;
@@ -238,6 +281,12 @@ p {
   color: #fff;
   line-height: 1.2;
   opacity: 0.5;
+}
+@media (max-width: 599px) {
+  .filtersTags input {
+    grid-column: 1/span 2;
+    font-size: 16px;
+  }
 }
 
 #ingredientsFilterList {
