@@ -333,6 +333,10 @@ p {
   display: none;
 }
 
+.nomatch {
+  font-size: 20px;
+}
+
 /*@import "./pages/about";
 @import "./pages/project";*/
 

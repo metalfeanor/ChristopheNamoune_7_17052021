@@ -24,8 +24,13 @@ function displayAllRecipes(recipesDisplayed) {
   //document.querySelector(".recipes").innerHTML = "";
   //console.log(recipesDisplayed);
   document.querySelector(".recipes").innerHTML = "";
-  recipesDisplayed.map((recipe) => {
-    document.querySelector(".recipes").innerHTML += `<div class="recipe" data-id='${recipe.id}'>
+  if (recipesDisplayed.length === 0) {
+    document.querySelector(
+      ".recipes"
+    ).innerHTML += `<div class="nomatch">Aucune recette ne correspond à votre critère... vous pouvez chercher « tarte aux pommes », « poisson », etc.</div>`;
+  } else {
+    recipesDisplayed.map((recipe) => {
+      document.querySelector(".recipes").innerHTML += `<div class="recipe" data-id='${recipe.id}'>
     <div class="recipe-img">
     </div>
     <div class="recipe__header">
@@ -43,7 +48,8 @@ function displayAllRecipes(recipesDisplayed) {
       <p class="recipe__body__description">${recipe.description}</p>
     </div>
     </div>`;
-  });
+    });
+  }
 }
 
 function getAllTagToDisplayFromMainInput(arrIng, arrApp, arrUst, arrOfRecipe) {
