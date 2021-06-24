@@ -243,7 +243,7 @@ p {
 }
 @media (max-width: 599px) {
   .filtersTags ul {
-    width: 88vw;
+    width: 86vw;
     grid-template-columns: repeat(2, 1fr);
   }
 }
