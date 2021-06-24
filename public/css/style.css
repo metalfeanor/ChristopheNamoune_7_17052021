@@ -329,6 +329,10 @@ p {
   color: black;
 }
 
+.hidden {
+  display: none;
+}
+
 /*@import "./pages/about";
 @import "./pages/project";*/
 
