@@ -13,16 +13,12 @@ let ingFiltertagList = [];
 let appFiltertagList = [];
 let ustFiltertagList = [];
 let labelTagList = [];
-//let recipeIdToDisplay = [];
 let menuOpen;
 let recipeToDisplay = [];
 let searchTerm = "";
 
 /* Use data from recipes.js to create all recipe Card on HomePage  */
 function displayAllRecipes(recipesDisplayed) {
-  //delete all photographers Cards to avoid duplicate photographer card
-  //document.querySelector(".recipes").innerHTML = "";
-  //console.log(recipesDisplayed);
   document.querySelector(".recipes").innerHTML = "";
   if (recipesDisplayed.length === 0) {
     document.querySelector(
@@ -52,79 +48,13 @@ function displayAllRecipes(recipesDisplayed) {
   }
 }
 
-// This function find common elements in 3 arrays
-function findCommon(ar1, ar2, ar3, n1, n2, n3) {
-  // Initialize starting indexes for ar1[], ar2[] and ar3[]
-  let result = [];
-
-  let i = 0,
-    j = 0,
-    k = 0;
-
-  // Declare three variables prev1,
-  // prev2, prev3 to track
-  // previous element
-  var prev1, prev2, prev3;
-
-  // Initialize prev1, prev2,
-  // prev3 with INT_MIN
-  prev1 = prev2 = prev3 = -1000000000;
-
-  // Iterate through three arrays
-  // while all arrays have
-  // elements
-  while (i < n1 && j < n2 && k < n3) {
-    // If ar1[i] = prev1 and i < n1,
-    // keep incrementing i
-    while (ar1[i] == prev1 && i < n1) i++;
-
-    // If ar2[j] = prev2 and j < n2,
-    // keep incrementing j
-    while (ar2[j] == prev2 && j < n2) j++;
-
-    // If ar3[k] = prev3 and k < n3,
-    // keep incrementing k
-    while (ar3[k] == prev3 && k < n3) k++;
-
-    // If x = y and y = z, stock any of them, update
-    // prev1 prev2, prev3 and move ahead in each array
-    if (ar1[i] == ar2[j] && ar2[j] == ar3[k]) {
-      result.push(ar1[i]);
-      prev1 = ar1[i];
-      prev2 = ar2[j];
-      prev3 = ar3[k];
-      i++;
-      j++;
-      k++;
-    }
-
-    // If x < y, update prev1 and increment i
-    else if (ar1[i] < ar2[j]) {
-      prev1 = ar1[i];
-      i++;
-    }
-
-    // If y < z, update prev2 and increment j
-    else if (ar2[j] < ar3[k]) {
-      prev2 = ar2[j];
-      j++;
-    }
-
-    // We reach here when x > y and z < y, i.e., z is
-    // smallest update prev3 and imcrement k
-    else {
-      prev3 = ar3[k];
-      k++;
-    }
-  }
-
+function findCommon(ar1, ar2, ar3) {
+  const res = ar1.filter((elt) => ar2.includes(elt));
+  const result = res.filter((elt) => ar3.includes(elt));
   return result;
 }
 
 function getAllTagToDisplayFromMainInput(arrIng, arrApp, arrUst, arrOfRecipe) {
-  /*for (let i = 0; i < arrOfRecipe.length; i++) {*/
-  //const recipeFiltered = recipes.filter((recipe) => recipe.id === arrOfRecipe[i]);
-
   arrOfRecipe.map((elt) => {
     if (!arrApp.includes(elt.appliance.toLowerCase())) {
       arrApp.push(elt.appliance.toLowerCase());
@@ -140,77 +70,61 @@ function getAllTagToDisplayFromMainInput(arrIng, arrApp, arrUst, arrOfRecipe) {
       }
     });
   });
-  /*
-  }*/
   return arrIng, arrApp, arrUst;
 }
 const getArrayFiltered = (arr1, arr2) => {
   return arr1.filter((item) => arr2.includes(item));
 };
 
-const getArrOfRecipesIdFiltered = (arr1, arr2, arr3, n1, n2, n3) => {
-  //n1, n2 & n3 are respectively length of arr1, arr2 & arr3
-  if (n1 && !n2 && !n3) {
-    recipeToDisplay = recipes.filter((recipe) => arr1.includes(recipe.id));
+const getArrOfRecipesIdFiltered = (arrIngredientsTaggedId, arrApplianceTaggedId, arrUstensilsTaggedId) => {
+  const taggedIngredientsLength = arrIngredientsTaggedId.length;
+  const taggedApplianceLength = arrApplianceTaggedId.length;
+  const taggedUstensilsLength = arrUstensilsTaggedId.length;
+  if (taggedIngredientsLength && !taggedApplianceLength && !taggedUstensilsLength) {
+    recipeToDisplay = recipes.filter((recipe) => arrIngredientsTaggedId.includes(recipe.id));
     return recipeToDisplay;
   }
-  if (!n1 && n2 && !n3) {
-    recipeToDisplay = recipes.filter((recipe) => arr2.includes(recipe.id));
+  if (!taggedIngredientsLength && taggedApplianceLength && !taggedUstensilsLength) {
+    recipeToDisplay = recipes.filter((recipe) => arrApplianceTaggedId.includes(recipe.id));
     return recipeToDisplay;
   }
-  if (!n1 && !n2 && n3) {
-    recipeToDisplay = recipes.filter((recipe) => arr3.includes(recipe.id));
+  if (!taggedIngredientsLength && !taggedApplianceLength && taggedUstensilsLength) {
+    recipeToDisplay = recipes.filter((recipe) => arrUstensilsTaggedId.includes(recipe.id));
     return recipeToDisplay;
   }
-  if (n1 && n2 && !n3) {
-    const res = getArrayFiltered(arr1, arr2);
-    recipeToDisplay = recipes.filter((recipe) => res.includes(recipe.id));
+  if (taggedIngredientsLength && taggedApplianceLength && !taggedUstensilsLength) {
+    const result = getArrayFiltered(arrIngredientsTaggedId, arrApplianceTaggedId);
+    recipeToDisplay = recipes.filter((recipe) => result.includes(recipe.id));
     return recipeToDisplay;
   }
-  if (!n1 && n2 && n3) {
-    const res = getArrayFiltered(arr2, arr3);
-    recipeToDisplay = recipes.filter((recipe) => res.includes(recipe.id));
+  if (!taggedIngredientsLength && taggedApplianceLength && taggedUstensilsLength) {
+    const result = getArrayFiltered(arrApplianceTaggedId, arrUstensilsTaggedId);
+    recipeToDisplay = recipes.filter((recipe) => result.includes(recipe.id));
     return recipeToDisplay;
   }
-  if (n1 && !n2 && n3) {
-    const res = getArrayFiltered(arr1, arr3);
-    recipeToDisplay = recipes.filter((recipe) => res.includes(recipe.id));
+  if (taggedIngredientsLength && !taggedApplianceLength && taggedUstensilsLength) {
+    const result = getArrayFiltered(arrIngredientsTaggedId, arrUstensilsTaggedId);
+    recipeToDisplay = recipes.filter((recipe) => result.includes(recipe.id));
     return recipeToDisplay;
   }
-  if (n1 && n2 && n3) {
-    const res = findCommon(arr1, arr2, arr3, n1, n2, n3);
-    recipeToDisplay = recipes.filter((recipe) => res.includes(recipe.id));
+  if (taggedIngredientsLength && taggedApplianceLength && taggedUstensilsLength) {
+    const result = findCommon(arrIngredientsTaggedId, arrApplianceTaggedId, arrUstensilsTaggedId);
+    recipeToDisplay = recipes.filter((recipe) => result.includes(recipe.id));
     return recipeToDisplay;
   }
 };
 
 /* Use data from main Search input to filter recipes  */
 const renderElements = () => {
-  //e.preventDefault();
-  //console.log(value);
   if (searchTerm.length > 2) {
-    // console.log(searchTerm, labelTagList);
-
     recipeToDisplay = recipes.filter((recipe) => {
       const valueToSearch = searchTerm.toLowerCase();
-      //console.log(valueToSearch);
       const isRecipeTextMatchingSearch =
         recipe.description.toLowerCase().includes(valueToSearch) || recipe.name.toLowerCase().includes(valueToSearch);
-      // if (recipe.description.toLowerCase().includes(valueToSearch) || recipe.name.toLowerCase().includes(valueToSearch)) {
-      //   return true;
-      // }
+
       const isMatchingSelectedIngredientTag = recipe.ingredients.some((item) => {
-        item.ingredient.toLowerCase().includes(valueToSearch); /*||
-          labelTagList.some((label) => label.type === "ing" && item.ingredient.toLowerCase() === label.data);*/
+        item.ingredient.toLowerCase().includes(valueToSearch);
       });
-      /*const isMatchingSelectedApplianceTag = labelTagList.some((label) => label.type === "app" && recipe.appliance.toLowerCase() === label.data);
-
-      const isMatchingSelectedUstensilsTag = recipe.ustensils.some((item) => {
-        item.toLowerCase().includes(valueToSearch) || labelTagList.some((label) => label.type === "ust" && item.toLowerCase() === label.data);
-      });*/
-
-      // console.log(isRecipeTextMatchingSearch, isMatchingSelectedIngredientTag);
-      // if (isRecipeTextMatchingSearch || isMatchingSelectedIngredientTag || isMatchingSelectedApplianceTag || isMatchingSelectedUstensilsTag) {
 
       if (isRecipeTextMatchingSearch || isMatchingSelectedIngredientTag) {
         return true;
@@ -220,7 +134,6 @@ const renderElements = () => {
     });
     console.log(recipeToDisplay);
     if (labelTagList.length > 0) {
-      let allRecipeIdTagged = [];
       let allRecipeIdTaggedFromIngredients = [];
       let allRecipeIdTaggedFromAppliance = [];
       let allRecipeIdTaggedFromUstensils = [];
@@ -263,59 +176,7 @@ const renderElements = () => {
         }
       });
 
-      const n1 = allRecipeIdTaggedFromIngredients.length;
-      const n2 = allRecipeIdTaggedFromAppliance.length;
-      const n3 = allRecipeIdTaggedFromUstensils.length;
-
-      recipeToDisplay = getArrOfRecipesIdFiltered(
-        allRecipeIdTaggedFromIngredients,
-        allRecipeIdTaggedFromAppliance,
-        allRecipeIdTaggedFromUstensils,
-        n1,
-        n2,
-        n3
-      );
-      /*
-      if (ustLabelAvailable.length > 0) {
-        recipeToDisplay.map((recipe) => {
-          recipe.ustensils.map((item) => {
-            ustLabelAvailable.map((label) => {
-              if (item.toLowerCase() === label.data) {
-                if (!allRecipeIdTagged.includes(recipe.id)) {
-                  allRecipeIdTagged.push(recipe.id);
-                }
-              }
-            });
-          });
-        });
-      }
-      if (ingLabelAvailable.length > 0) {
-        recipeToDisplay.map((recipe) => {
-          recipe.ingredients.map((item) => {
-            ingLabelAvailable.map((label) => {
-              if (item.ingredient.toLowerCase() === label.data) {
-                if (!allRecipeIdTagged.includes(recipe.id)) {
-                  allRecipeIdTagged.push(recipe.id);
-                }
-              }
-            });
-          });
-        });
-      }
-      if (appLabelAvailable.length > 0) {
-        recipeToDisplay.map((recipe) => {
-          appLabelAvailable.map((label) => {
-            if (recipe.appliance.toLowerCase() === label.data) {
-              if (!allRecipeIdTagged.includes(recipe.id)) {
-                allRecipeIdTagged.push(recipe.id);
-              }
-            }
-          });
-        });
-      }
-      recipeToDisplay = [...recipeToDisplay].filter((recipe) => allRecipeIdTagged.includes(recipe.id));
-      */
-      //console.log(allRecipeIdTagged);
+      recipeToDisplay = getArrOfRecipesIdFiltered(allRecipeIdTaggedFromIngredients, allRecipeIdTaggedFromAppliance, allRecipeIdTaggedFromUstensils);
     }
 
     console.log(recipeToDisplay);
@@ -331,7 +192,7 @@ const renderElements = () => {
     ingToDisplay = [];
     appToDisplay = [];
     ustToDisplay = [];
-    //console.log(labelTagList);
+
     if (labelTagList.length > 0) {
       let allRecipeIdTaggedFromIngredients = [];
       let allRecipeIdTaggedFromAppliance = [];
@@ -374,59 +235,19 @@ const renderElements = () => {
         }
       });
 
-      //console.log(allRecipeIdTaggedFromIngredients, allRecipeIdTaggedFromAppliance, allRecipeIdTaggedFromUstensils);
+      recipeToDisplay = getArrOfRecipesIdFiltered(allRecipeIdTaggedFromIngredients, allRecipeIdTaggedFromAppliance, allRecipeIdTaggedFromUstensils);
 
-      const n1 = allRecipeIdTaggedFromIngredients.length;
-      const n2 = allRecipeIdTaggedFromAppliance.length;
-      const n3 = allRecipeIdTaggedFromUstensils.length;
-
-      //      recipeToDisplay = recipes.filter((recipe) => allRecipeIdTagged.includes(recipe.id));
-      /*
-      const arrOfRecipeIdToDisplay = findCommon(
-        allRecipeIdTaggedFromIngredients,
-        allRecipeIdTaggedFromAppliance,
-        allRecipeIdTaggedFromUstensils,
-        n1,
-        n2,
-        n3
-      );
-
-      const result = getArrOfRecipesIdFiltered(
-        allRecipeIdTaggedFromIngredients,
-        allRecipeIdTaggedFromAppliance,
-        allRecipeIdTaggedFromUstensils,
-        n1,
-        n2,
-        n3
-      );
-
-      console.log(arrOfRecipeIdToDisplay, result);
-      */
-
-      recipeToDisplay = getArrOfRecipesIdFiltered(
-        allRecipeIdTaggedFromIngredients,
-        allRecipeIdTaggedFromAppliance,
-        allRecipeIdTaggedFromUstensils,
-        n1,
-        n2,
-        n3
-      );
-
-      //console.log(recipeToDisplay);
       displayAllRecipes(recipeToDisplay);
       getAllTagToDisplayFromMainInput(ingToDisplay, appToDisplay, ustToDisplay, recipeToDisplay);
-      //console.log(ingToDisplay);
       recipeToDisplay = [];
     } else {
       displayAllRecipes(recipes);
     }
-    //displayAllRecipes(recipes);
   }
 };
 
 /* console log filter tag from input search bar into filterBtn */
 const displayTextFromSearchInput = (e) => {
-  //e.preventDefault();
   const value = e.target.value;
   //DOM Element
   const ingBtnList = document.querySelectorAll(".ingfilterBtn");
@@ -490,8 +311,6 @@ function getInitialTagFromRecipes() {
     });
     elt.ingredients.map((item) => {
       if (!initialIngredients.includes(item.ingredient.toLowerCase())) {
-        /*const data = { id: elt.id, item: item.ingredient.toLowerCase() };
-        initialIngredients = [...initialIngredients, data];*/
         initialIngredients.push(item.ingredient.toLowerCase());
       }
       if (item.unit) {
@@ -528,8 +347,6 @@ function getUnit(unit) {
 
 displayAllRecipes(recipes);
 getInitialTagFromRecipes();
-
-//console.log(initialUstensils, initialIngredients, initialAppliances, initialUnits);
 
 //DOM Element
 const ingBtn = document.getElementById("ing-btn");
@@ -606,11 +423,6 @@ const returnTypeFromColor = (color) => {
 const displayItem = (e, color) => {
   const label = document.getElementById("label");
 
-  // insert width only one time for the div element
-  /*if (!label.hasChildNodes()) {
-    label.style.width = "100%";
-  }*/
-
   // 1. Create the button
   const value = e.target.textContent;
   const button = createGenericElement("span", { text: value, attribute: { id: value } });
@@ -627,17 +439,13 @@ const displayItem = (e, color) => {
     const id = document.getElementById(value);
     label.removeChild(id);
     labelTagList = [...labelTagList].filter((label) => label !== data);
-    //console.log(labelTagList);
     renderElements();
   });
   // 5. insert Font awesome elt
 
   const labelToCheck = labelTagList.filter((label) => label.type === type && label.data === value);
-  //console.log(labelToCheck);
-  //if (!labelTagList.includes(data)) {
-  if (!labelToCheck.length) {
-    //labelTagList.push(value);
 
+  if (!labelToCheck.length) {
     labelTagList = [...labelTagList, data];
 
     button.appendChild(iBtn);
@@ -671,8 +479,6 @@ function displayIngredientsFilterMenu() {
     e.stopPropagation();
     e.target.parentNode.parentNode.style.display = "none";
   });
-
-  //console.log(ingToDisplay, ingFiltertagList);
 
   if (x.children[0].localName === "input") {
     if (ingToDisplay.length > 0) {
@@ -748,8 +554,6 @@ function displayAppliancesFilterMenu() {
         .join("");
     }
   }
-  /*x.innerHTML = `<input class="filtersTags__search" type="text" placeholder="Recherche un appareil" />
-  <span class="fas fa-chevron-up item"></span>${initialAppliances.map((item) => `<button class="filterBtn">${item}</button>`).join("")}`;*/
 }
 
 function displayUstensilsFilterMenu() {
@@ -793,19 +597,9 @@ function displayUstensilsFilterMenu() {
         .join("");
     }
   }
-  /*
-  x.innerHTML = `<input class="filtersTags__search" type="text" placeholder="Recherche un ustensile" />
-  <span class="fas fa-chevron-up item"></span>${initialUstensils.map((item) => `<button class="filterBtn">${item}</button>`).join("")}`;
-  */
 }
 
 function isFilterTagsMenuOpen(e) {
-  //console.log(menuOpen);
-
-  /*if (e.target.classList.includes("closeBtn")) {
-    console.log("ici");
-  }*/
-
   if (ingList && !ingList.contains(e.target)) {
     ingList.parentElement.style.display = "none";
     menuOpen = undefined;
@@ -829,8 +623,6 @@ function displayBtn() {
       e.stopPropagation();
       const color = "blue";
       displayItem(e, color);
-      //renderElements();
-      //console.log(recipeToDisplay);
     });
   });
   const appfilterBtn = document.querySelectorAll(".appfilterBtn");
@@ -839,8 +631,6 @@ function displayBtn() {
       e.stopPropagation();
       const color = "green";
       displayItem(e, color);
-      //renderElements();
-      //console.log(recipeToDisplay);
     });
   });
   const ustfilterBtn = document.querySelectorAll(".ustfilterBtn");
@@ -849,8 +639,6 @@ function displayBtn() {
       e.stopPropagation();
       const color = "orange";
       displayItem(e, color);
-      //renderElements();
-      //console.log(recipeToDisplay);
     });
   });
 }
