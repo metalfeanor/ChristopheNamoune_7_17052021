@@ -18,9 +18,6 @@ let searchTerm = "";
 
 /* Use data from recipes.js to create all recipe Card on HomePage  */
 function displayAllRecipes(recipesDisplayed) {
-  //const recipesDisplayed = filterRecipes();
-  //console.log(recipesDisplayed);
-
   document.querySelector(".recipes").innerHTML = "";
   if (recipesDisplayed.length === 0) {
     document.querySelector(
@@ -71,17 +68,19 @@ function getAllTagToDisplayFromMainInput(arrIng, arrApp, arrUst, arrOfRecipe) {
 const filterRecipes = () => {
   return recipes.filter((recipe) => {
     //1-verify matching with searchTerm form input
+    console.log(labelTagList);
     const ustLabelAvailable = labelTagList.filter((label) => label.type === "ust");
     const ingLabelAvailable = labelTagList.filter((label) => label.type === "ing");
     const appLabelAvailable = labelTagList.filter((label) => label.type === "app");
+
     const valueToSearch = searchTerm.toLowerCase();
-    //console.log(valueToSearch);
+
     const isRecipeTextMatchingSearch =
       valueToSearch && valueToSearch.length > 2
         ? recipe.description.toLowerCase().includes(valueToSearch) || recipe.name.toLowerCase().includes(valueToSearch)
         : true;
 
-    //2-regarder pour la recette étudiée si tous les tags matchent
+    //2-verify for recipe if tags are matching with
     const isMatchingSelectedIngredientTag =
       ingLabelAvailable.length > 0
         ? recipe.ingredients.some((item) => {
@@ -89,7 +88,6 @@ const filterRecipes = () => {
           })
         : true;
 
-    // même chose pour les deux autres
     const isMatchingSelectedApplianceTag =
       appLabelAvailable.length > 0 ? labelTagList.some((label) => label.type === "app" && recipe.appliance.toLowerCase() === label.data) : true;
 
@@ -108,8 +106,6 @@ const filterRecipes = () => {
 const renderElements = () => {
   recipeToDisplay = filterRecipes();
 
-  //console.log(recipeToDisplay);
-
   displayAllRecipes(recipeToDisplay);
   ingToDisplay = [];
   appToDisplay = [];
@@ -121,7 +117,6 @@ const renderElements = () => {
 
 /* console log filter tag from input search bar into filterBtn */
 const displayTextFromSearchInput = (e) => {
-  //e.preventDefault();
   const value = e.target.value;
   //DOM Element
   const ingBtnList = document.querySelectorAll(".ingfilterBtn");
@@ -185,8 +180,6 @@ function getInitialTagFromRecipes() {
     });
     elt.ingredients.map((item) => {
       if (!initialIngredients.includes(item.ingredient.toLowerCase())) {
-        /*const data = { id: elt.id, item: item.ingredient.toLowerCase() };
-        initialIngredients = [...initialIngredients, data];*/
         initialIngredients.push(item.ingredient.toLowerCase());
       }
       if (item.unit) {
@@ -223,8 +216,6 @@ function getUnit(unit) {
 
 displayAllRecipes(recipes);
 getInitialTagFromRecipes();
-
-//console.log(initialUstensils, initialIngredients, initialAppliances, initialUnits);
 
 //DOM Element
 const ingBtn = document.getElementById("ing-btn");
@@ -301,11 +292,6 @@ const returnTypeFromColor = (color) => {
 const displayItem = (e, color) => {
   const label = document.getElementById("label");
 
-  // insert width only one time for the div element
-  /*if (!label.hasChildNodes()) {
-    label.style.width = "100%";
-  }*/
-
   // 1. Create the button
   const value = e.target.textContent;
   const button = createGenericElement("span", { text: value, attribute: { id: value } });
@@ -328,11 +314,8 @@ const displayItem = (e, color) => {
   // 5. insert Font awesome elt
 
   const labelToCheck = labelTagList.filter((label) => label.type === type && label.data === value);
-  //console.log(labelToCheck);
-  //if (!labelTagList.includes(data)) {
-  if (!labelToCheck.length) {
-    //labelTagList.push(value);
 
+  if (!labelToCheck.length) {
     labelTagList = [...labelTagList, data];
 
     button.appendChild(iBtn);
@@ -348,7 +331,7 @@ const displayItem = (e, color) => {
 };
 
 function displayIngredientsFilterMenu() {
-  //si menuOpen ne lance pas onclick
+  //if menuOpen, onclick not launch
   if (menuOpen === "ingredients") return;
   menuOpen = "ingredients";
   const x = document.querySelector(".filtersTags > #ingredientsFilterList");
@@ -367,7 +350,6 @@ function displayIngredientsFilterMenu() {
   });
   //reset input field
   x.children[0].value = "";
-  //console.log(ingToDisplay, ingFiltertagList);
 
   if (x.children[0].localName === "input") {
     if (ingToDisplay.length > 0) {
@@ -443,8 +425,6 @@ function displayAppliancesFilterMenu() {
         .join("");
     }
   }
-  /*x.innerHTML = `<input class="filtersTags__search" type="text" placeholder="Recherche un appareil" />
-  <span class="fas fa-chevron-up item"></span>${initialAppliances.map((item) => `<button class="filterBtn">${item}</button>`).join("")}`;*/
 }
 
 function displayUstensilsFilterMenu() {
@@ -490,10 +470,6 @@ function displayUstensilsFilterMenu() {
         .join("");
     }
   }
-  /*
-  x.innerHTML = `<input class="filtersTags__search" type="text" placeholder="Recherche un ustensile" />
-  <span class="fas fa-chevron-up item"></span>${initialUstensils.map((item) => `<button class="filterBtn">${item}</button>`).join("")}`;
-  */
 }
 
 function isFilterTagsMenuOpen(e) {
